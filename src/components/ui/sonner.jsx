@@ -5,15 +5,13 @@ const Toaster = ({ ...props }) => {
 
   return (
     <Sonner
-      theme={theme"theme"]}
+      theme={theme}
       className="toaster group"
-      style={
-        {
+      style={{
           "--normal-bg": "var(--popover)",
           "--normal-text": "var(--popover-foreground)",
           "--normal-border": "var(--border)",
-        }.CSSProperties
-      }
+        }}
       {...props}
     />
   );
