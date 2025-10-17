@@ -5,7 +5,7 @@ import { Search, ShoppingCart, MessageSquare, Zap } from "lucide-react";
 
 const SAMPLE_PRODUCTS = [
   { id: "1", name: "iPhone 14 Pro", description: "128GB, Space Black", price: 1099, category: "phones", storeName: "TechWorld", storeId: "s1", imageUrl: "", hasAd: true, adPaid: true },
-  { id: "2", name: "Samsung Galaxy S23", description: "256GB, Phantom Black", price: 899, category: "phones", storeName: "GizmoHub", storeId: "s2", imageUrl: "" },
+  { id: "2", name: "Samsung Galaxy S23", description: "256GB, Phantom Black", price: 899, category: "phones", storeName: "Gezmu", storeId: "s2", imageUrl: "" },
   { id: "3", name: "MacBook Air M2", description: "13.6", price: 1299, category: "laptops", storeName: "ByteStore", storeId: "s3", imageUrl: "" },
   { id: "4", name: "Sony WH-1000XM5", description: "Noise Cancelling Headphones", price: 349, category: "audio", storeName: "SoundPro", storeId: "s4", imageUrl: "" },
 ];

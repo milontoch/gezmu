@@ -1,3 +1,27 @@
+/* Gezmu base theme variables */
+:root {
+  --color-bg: #fff;
+  --color-text: #18181b;
+  --color-card: #f5f5f5;
+  --color-border: #e5e5e5;
+  --color-nav: #fff;
+  --color-footer: #f5f5f5;
+}
+
+[data-theme="dark"] {
+  --color-bg: #222;
+  --color-text: #f5f5f5;
+  --color-card: #18181b;
+  --color-border: #333;
+  --color-nav: #18181b;
+  --color-footer: #18181b;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: background 0.2s, color 0.2s;
+}
 /*! tailwindcss v4.1.3 | MIT License | https://tailwindcss.com */
 @layer properties {
   @supports (((-webkit-hyphens: none)) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {

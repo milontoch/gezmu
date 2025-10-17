@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navigation } from './components/navigation.jsx';
+import { Navigation } from './components/top-navigation.jsx';
 import { LandingPage } from './components/landing-page.jsx';
 import { AuthPages } from './components/auth-pages.jsx';
 import { Marketplace } from './components/marketplace.jsx';
@@ -46,7 +46,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <h3 className="mb-4">GadgetHub</h3>
+              <h3 className="mb-4">Gezmu</h3>
               <p className="text-sm text-gray-600">
                 Your premier marketplace for buying and selling gadgets.
               </p>
@@ -79,7 +79,7 @@ export default function App() {
             </div>
           </div>
           <div className="border-t mt-8 pt-8 text-center text-sm text-gray-600">
-            <p>© 2025 GadgetHub. All rights reserved. Built with security and trust in mind.</p>
+            <p>© 2025 Gezmu. All rights reserved. Built with security and trust in mind.</p>
           </div>
         </div>
       </footer>
