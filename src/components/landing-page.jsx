@@ -1,18 +1,19 @@
 import { Shield, Users, Zap, Store, Tag } from "lucide-react";
 import { Button } from "./ui/button";
 
+// Amazon-style simplified categories (names only)
 const CATEGORIES = [
-  { name: "Phones", icon: "📱" },
-  { name: "Tablets", icon: "💊" },
-  { name: "Accessories", icon: "🎧" },
-  { name: "Smartwatches", icon: "⌚" },
-  { name: "Laptops", icon: "💻" },
-  { name: "Cameras", icon: "📷" },
-  { name: "Audio", icon: "🔊" },
-  { name: "Gaming", icon: "🎮" },
-  { name: "Drones", icon: "🛸" },
-  { name: "Smart Home", icon: "🏠" },
-  { name: "Other Gadgets", icon: "🔌" },
+  "Phones",
+  "Tablets",
+  "Accessories",
+  "Smartwatches",
+  "Laptops",
+  "Cameras",
+  "Audio",
+  "Gaming",
+  "Drones",
+  "Smart Home",
+  "Other Gadgets",
 ];
 
 const DEMO_PRODUCTS = [
@@ -104,15 +105,18 @@ export function LandingPage({ onNavigate }) {
         </div>
       </section>
 
-      {/* Categories */}
-      <div className="max-w-5xl mx-auto mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Categories</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
-          {CATEGORIES.map(cat => (
-            <div key={cat.name} className="card flex flex-col items-center justify-center cursor-pointer hover:shadow">
-              <span className="text-3xl mb-2">{cat.icon}</span>
-              <span className="font-medium">{cat.name}</span>
-            </div>
+      {/* Popular filters (Amazon-like hotlinks) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <h2 className="text-2xl font-semibold mb-3">Popular filters</h2>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-blue-700">
+          {CATEGORIES.map((name, idx) => (
+            <button
+              key={name}
+              className="hover:underline text-sm"
+              onClick={() => onNavigate("marketplace", { category: name })}
+            >
+              {name}
+            </button>
           ))}
         </div>
       </div>

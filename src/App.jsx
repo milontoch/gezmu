@@ -30,7 +30,7 @@ export default function App() {
         {currentView === 'landing' && <LandingPage onNavigate={handleNavigate} />}
         {currentView === 'signin' && <AuthPages initialView="signin" onNavigate={handleNavigate} />}
         {currentView === 'signup' && <AuthPages initialView="signup" onNavigate={handleNavigate} />}
-        {currentView === 'marketplace' && <Marketplace onNavigate={handleNavigate} />}
+  {currentView === 'marketplace' && <Marketplace onNavigate={handleNavigate} initialData={viewData} />}
         {currentView === 'store-dashboard' && <StoreDashboard onNavigate={handleNavigate} />}
         {currentView === 'store-products' && <StoreProducts onNavigate={handleNavigate} />}
         {currentView === 'messages' && <Messages initialData={viewData} onNavigate={handleNavigate} />}
