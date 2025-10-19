@@ -1,26 +1,88 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Search, ShoppingCart, MessageSquare, Zap } from "lucide-react";
+import { Search, Zap } from "lucide-react";
+import { PostCardInstagram } from "./post-card-instagram";
+
+const NIGERIA_STATES = [
+  "Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","FCT","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi","Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara",
+];
 
 const SAMPLE_PRODUCTS = [
-  { id: "1", name: "iPhone 14 Pro", description: "128GB, Space Black", price: 1099, category: "phones", storeName: "TechWorld", storeId: "s1", imageUrl: "", hasAd: true, adPaid: true },
-  { id: "2", name: "Samsung Galaxy S23", description: "256GB, Phantom Black", price: 899, category: "phones", storeName: "Gezmu", storeId: "s2", imageUrl: "" },
-  { id: "3", name: "MacBook Air M2", description: "13.6", price: 1299, category: "laptops", storeName: "ByteStore", storeId: "s3", imageUrl: "" },
-  { id: "4", name: "Sony WH-1000XM5", description: "Noise Cancelling Headphones", price: 349, category: "audio", storeName: "SoundPro", storeId: "s4", imageUrl: "" },
+  {
+    id: "1",
+    name: "iPhone 14 Pro",
+    description: "128GB, Space Black",
+    price: 1099000,
+    category: "phones",
+    storeName: "TechWorld",
+    storeId: "s1",
+    imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+    hasAd: true,
+    adPaid: true,
+    sellerAvatar: "https://i.pravatar.cc/100?img=10",
+    sellerPhone: "+234 801 234 5678",
+    location: "Lagos",
+    state: "Lagos",
+  },
+  {
+    id: "2",
+    name: "Samsung Galaxy S23",
+    description: "256GB, Phantom Black",
+    price: 899000,
+    category: "phones",
+    storeName: "Gezmu Store",
+    storeId: "s2",
+    imageUrl: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
+    sellerAvatar: "https://i.pravatar.cc/100?img=32",
+    sellerPhone: "+234 802 345 6789",
+    location: "Abuja",
+    state: "FCT",
+  },
+  {
+    id: "3",
+    name: "MacBook Air M2",
+    description: "13.6",
+    price: 1299000,
+    category: "laptops",
+    storeName: "ByteStore",
+    storeId: "s3",
+    imageUrl: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
+    sellerAvatar: "https://i.pravatar.cc/100?img=5",
+    sellerPhone: "+234 805 678 9012",
+    location: "Ibadan",
+    state: "Oyo",
+  },
+  {
+    id: "4",
+    name: "Sony WH-1000XM5",
+    description: "Noise Cancelling Headphones",
+    price: 349000,
+    category: "audio",
+    storeName: "SoundPro",
+    storeId: "s4",
+    imageUrl: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80",
+    sellerAvatar: "https://i.pravatar.cc/100?img=21",
+    sellerPhone: "+234 803 456 7890",
+    location: "Port Harcourt",
+    state: "Rivers",
+  },
 ];
 
 export function Marketplace({ onNavigate, initialData }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [vendorQuery, setVendorQuery] = useState("");
   // Amazon-like multi-select filters
   const [filters, setFilters] = useState({
     categories: new Set(),
     price: { min: "", max: "" },
     brands: new Set(),
+    state: "",
   });
 
   const categories = useMemo(() => Array.from(new Set(SAMPLE_PRODUCTS.map(p => p.category))), []);
   const brands = useMemo(() => Array.from(new Set(SAMPLE_PRODUCTS.map(p => p.storeName))), []);
+  const states = useMemo(() => NIGERIA_STATES, []);
 
   // Apply initial filter if navigated from landing
   useEffect(() => {
@@ -35,18 +97,21 @@ export function Marketplace({ onNavigate, initialData }) {
 
   const filteredProducts = useMemo(() => {
     const q = searchQuery.toLowerCase();
+    const vq = vendorQuery.toLowerCase();
     return SAMPLE_PRODUCTS.filter((p) => {
       const matchesSearch = p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
+      const matchesVendor = vq === "" || p.storeName.toLowerCase().includes(vq);
       const catOk = filters.categories.size === 0 || filters.categories.has(p.category);
       const brandOk = filters.brands.size === 0 || filters.brands.has(p.storeName);
+      const stateOk = !filters.state || p.state === filters.state;
       const priceOk = (() => {
         const min = filters.price.min ? Number(filters.price.min) : -Infinity;
         const max = filters.price.max ? Number(filters.price.max) : Infinity;
         return p.price >= min && p.price <= max;
       })();
-      return matchesSearch && catOk && brandOk && priceOk;
+      return matchesSearch && matchesVendor && catOk && brandOk && stateOk && priceOk;
     });
-  }, [searchQuery, filters]);
+  }, [searchQuery, vendorQuery, filters]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -56,13 +121,14 @@ export function Marketplace({ onNavigate, initialData }) {
       </div>
 
       {/* Top bar */}
-      <div className="mb-8 flex flex-col sm:flex-row gap-4">
-        <div className="flex-1 relative">
+      <div className="mb-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="sm:col-span-2 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
           <Input className="pl-10" placeholder="Search for gadgets..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={() => setFilters({ categories: new Set(), price: { min: "", max: "" }, brands: new Set() })}>Clear all</Button>
+          <Input placeholder="Filter by vendor name..." value={vendorQuery} onChange={(e) => setVendorQuery(e.target.value)} />
+          <Button variant="outline" onClick={() => setFilters({ categories: new Set(), price: { min: "", max: "" }, brands: new Set(), state: "" })}>Clear all</Button>
         </div>
       </div>
 
@@ -89,6 +155,20 @@ export function Marketplace({ onNavigate, initialData }) {
                 </label>
               ))}
             </div>
+          </div>
+
+          <div>
+            <h3 className="mb-2 font-semibold">Location (Nigeria)</h3>
+            <select
+              className="w-full h-9 border rounded-md px-2 text-sm"
+              value={filters.state}
+              onChange={(e) => setFilters((p) => ({ ...p, state: e.target.value }))}
+            >
+              <option value="">All states</option>
+              {states.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
           </div>
 
           <div>
@@ -128,86 +208,34 @@ export function Marketplace({ onNavigate, initialData }) {
           {filteredProducts.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-gray-600 mb-4">No products match the current filters</p>
-              <Button variant="link" onClick={() => setFilters({ categories: new Set(), price: { min: "", max: "" }, brands: new Set() })}>Clear all filters</Button>
+              <Button variant="link" onClick={() => setFilters({ categories: new Set(), price: { min: "", max: "" }, brands: new Set(), state: "" })}>Clear all filters</Button>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
-                <div key={product.id} className="overflow-hidden rounded-xl border bg-white hover:shadow-lg transition-shadow">
-                  <div className="relative">
-                    <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400">Image</div>
-                    {product.hasAd && product.adPaid && (
-                      <div className="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded inline-flex items-center gap-1">
-                        <Zap className="h-3 w-3" /> Featured
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-4 space-y-2">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="text-lg line-clamp-1">{product.name}</div>
-                      <div className="text-lg text-blue-600">${product.price}</div>
-                    </div>
-                    <div className="text-sm text-gray-600 line-clamp-2">{product.description}</div>
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="text-gray-600">{product.storeName}</div>
-                      <div className="px-2 py-1 text-xs rounded bg-gray-100">{product.category}</div>
-                    </div>
-                  </div>
-                  <div className="p-4 pt-0 flex gap-2">
-                    <Button variant="outline" size="sm" className="flex-1" onClick={() => onNavigate("messages", { recipientId: product.storeId, recipientName: product.storeName, productId: product.id })}>
-                      <MessageSquare className="h-4 w-4 mr-1" /> Contact
-                    </Button>
-                    <Button size="sm" className="flex-1" onClick={() => onNavigate("checkout", { product })}>
-                      <ShoppingCart className="h-4 w-4 mr-1" /> Buy Now
-                    </Button>
-                  </div>
-                </div>
+              {filteredProducts.map((p) => (
+                <PostCardInstagram
+                  key={p.id}
+                  onNavigate={onNavigate}
+                  product={{
+                    id: p.id,
+                    title: p.name,
+                    price: `₦${(p.price ?? 0).toLocaleString()}`,
+                    image: p.imageUrl,
+                    sellerName: p.storeName,
+                    sellerAvatar: p.sellerAvatar,
+                    storeId: p.storeId,
+                    sellerPhone: p.sellerPhone,
+                    location: p.location,
+                    hasAd: p.hasAd,
+                    adPaid: p.adPaid,
+                  }}
+                />
               ))}
             </div>
           )}
         </div>
       </div>
 
-      {filteredProducts.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="text-gray-600 mb-4">No products found</p>
-          <p className="text-sm text-gray-500">Be the first to discover new gadgets when stores list them!</p>
-        </div>
-      ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
-            <div key={product.id} className="overflow-hidden rounded-xl border bg-white hover:shadow-lg transition-shadow">
-              <div className="relative">
-                <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400">Image</div>
-                {product.hasAd && product.adPaid && (
-                  <div className="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded inline-flex items-center gap-1">
-                    <Zap className="h-3 w-3" /> Featured
-                  </div>
-                )}
-              </div>
-              <div className="p-4 space-y-2">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="text-lg line-clamp-1">{product.name}</div>
-                  <div className="text-lg text-blue-600">${product.price}</div>
-                </div>
-                <div className="text-sm text-gray-600 line-clamp-2">{product.description}</div>
-                <div className="flex items-center justify-between text-sm">
-                  <div className="text-gray-600">{product.storeName}</div>
-                  <div className="px-2 py-1 text-xs rounded bg-gray-100">{product.category}</div>
-                </div>
-              </div>
-              <div className="p-4 pt-0 flex gap-2">
-                <Button variant="outline" size="sm" className="flex-1" onClick={() => onNavigate("messages", { recipientId: product.storeId, recipientName: product.storeName, productId: product.id })}>
-                  <MessageSquare className="h-4 w-4 mr-1" /> Contact
-                </Button>
-                <Button size="sm" className="flex-1" onClick={() => onNavigate("checkout", { product })}>
-                  <ShoppingCart className="h-4 w-4 mr-1" /> Buy Now
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
 
       <div className="mt-12 bg-blue-50 rounded-lg p-6">
         <h3 className="mb-2">Why Gezmu?</h3>

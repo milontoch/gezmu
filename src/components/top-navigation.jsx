@@ -7,7 +7,7 @@ export function Navigation({ currentView, onNavigate }) {
         <div className="flex justify-between items-center h-16">
           <div
             className="flex items-center gap-2 cursor-pointer"
-            onClick={() => onNavigate("landing")}
+            onClick={() => onNavigate("home")}
           >
             <span className="text-xl font-bold">Gezmu</span>
           </div>
@@ -19,10 +19,22 @@ export function Navigation({ currentView, onNavigate }) {
               Marketplace
             </button>
             <button
-              onClick={() => onNavigate("blog")}
+              onClick={() => onNavigate("vendor")}
               className="px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50"
             >
-              Blog
+              Vendor
+            </button>
+            <button
+              onClick={() => onNavigate("customer")}
+              className="px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50"
+            >
+              Customer
+            </button>
+            <button
+              onClick={() => onNavigate("sharp-deals")}
+              className="px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50"
+            >
+              Sharp Deals
             </button>
             <button
               onClick={() => onNavigate("signin")}

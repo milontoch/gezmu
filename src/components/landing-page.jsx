@@ -1,5 +1,6 @@
 import { Shield, Users, Zap, Store, Tag } from "lucide-react";
 import { Button } from "./ui/button";
+import { PostCardInstagram } from "./post-card-instagram";
 
 // Amazon-style simplified categories (names only)
 const CATEGORIES = [
@@ -18,58 +19,82 @@ const CATEGORIES = [
 
 const DEMO_PRODUCTS = [
   {
+    id: "p1",
     title: "iPhone 15 Pro Max",
     price: "₦1,200,000",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
     category: "Phones",
     location: "Lagos",
-    seller: "Verified",
-    desc: "Latest Apple flagship, 256GB, Sierra Blue."
+    sellerName: "TechWorld",
+    sellerAvatar: "https://i.pravatar.cc/100?img=10",
+    storeId: "s1",
+    sellerPhone: "+234 801 234 5678",
+    desc: "Latest Apple flagship, 256GB, Sierra Blue.",
   },
   {
+    id: "p2",
     title: "Samsung Galaxy Tab S9",
     price: "₦800,000",
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
     category: "Tablets",
     location: "Abuja",
-    seller: "Premium",
-    desc: "12.4' AMOLED, 128GB, WiFi + LTE."
+    sellerName: "Abuja Gadgets",
+    sellerAvatar: "https://i.pravatar.cc/100?img=32",
+    storeId: "s2",
+    sellerPhone: "+234 802 345 6789",
+    desc: "12.4' AMOLED, 128GB, WiFi + LTE.",
   },
   {
+    id: "p3",
     title: "Sony WH-1000XM5 Headphones",
     price: "₦180,000",
-    image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80",
+    image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80",
     category: "Accessories",
     location: "Port Harcourt",
-    seller: "Verified",
-    desc: "Noise cancelling, wireless, black."
+    sellerName: "SoundPro",
+    sellerAvatar: "https://i.pravatar.cc/100?img=21",
+    storeId: "s3",
+    sellerPhone: "+234 803 456 7890",
+    desc: "Noise cancelling, wireless, black.",
   },
   {
+    id: "p4",
     title: "Apple Watch Series 9",
     price: "₦350,000",
-    image: "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=400&q=80",
+    image: "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=800&q=80",
     category: "Smartwatches",
     location: "Kano",
-    seller: "Premium",
-    desc: "GPS + Cellular, 45mm, Midnight."
+    sellerName: "WatchHub",
+    sellerAvatar: "https://i.pravatar.cc/100?img=17",
+    storeId: "s4",
+    sellerPhone: "+234 804 567 8901",
+    desc: "GPS + Cellular, 45mm, Midnight.",
   },
   {
+    id: "p5",
     title: "Dell XPS 13 Laptop",
     price: "₦950,000",
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
     category: "Laptops",
     location: "Ibadan",
-    seller: "Verified",
-    desc: "13.4' FHD, 512GB SSD, 16GB RAM."
+    sellerName: "ByteStore",
+    sellerAvatar: "https://i.pravatar.cc/100?img=5",
+    storeId: "s5",
+    sellerPhone: "+234 805 678 9012",
+    desc: "13.4' FHD, 512GB SSD, 16GB RAM.",
   },
   {
+    id: "p6",
     title: "Canon EOS M50 Camera",
     price: "₦400,000",
-    image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+    image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80",
     category: "Cameras",
     location: "Enugu",
-    seller: "Premium",
-    desc: "Mirrorless, 24MP, 15-45mm lens."
+    sellerName: "LensCraft",
+    sellerAvatar: "https://i.pravatar.cc/100?img=48",
+    storeId: "s6",
+    sellerPhone: "+234 806 789 0123",
+    desc: "Mirrorless, 24MP, 15-45mm lens.",
   },
 ];
 
@@ -125,16 +150,8 @@ export function LandingPage({ onNavigate }) {
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl font-semibold mb-4">Trending Gadgets</h2>
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-          {DEMO_PRODUCTS.map((prod, i) => (
-            <div key={i} className="card">
-              <img src={prod.image} alt={prod.title} className="w-full h-48 object-cover rounded mb-3" />
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-semibold text-lg">{prod.title}</span>
-                <span className="text-black dark:text-white font-bold">{prod.price}</span>
-              </div>
-              <div className="text-sm text-gray-500 mb-2">{prod.category} • {prod.location} • <span className="font-semibold">{prod.seller}</span></div>
-              <div className="text-sm text-gray-700 dark:text-gray-300">{prod.desc}</div>
-            </div>
+          {DEMO_PRODUCTS.map((prod) => (
+            <PostCardInstagram key={prod.id} product={prod} onNavigate={onNavigate} />
           ))}
         </div>
       </div>

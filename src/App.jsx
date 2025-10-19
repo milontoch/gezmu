@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import { Navigation } from './components/top-navigation.jsx';
 import { LandingPage } from './components/landing-page.jsx';
+import { Info } from './components/info.jsx';
+import { HomeFeed } from './components/home-feed.jsx';
 import { AuthPages } from './components/auth-pages.jsx';
 import { Marketplace } from './components/marketplace.jsx';
 import { StoreDashboard } from './components/store-dashboard.jsx';
 import { StoreProducts } from './components/store-products.jsx';
 import { Messages } from './components/messages.jsx';
-import { Blog } from './components/blog.jsx';
+import { SharpDeals } from './components/sharp-deals.jsx';
 import { RepairService } from './components/repair-service.jsx';
 import { Checkout } from './components/checkout.jsx';
 import { Orders } from './components/orders.jsx';
 import { Toaster } from './components/ui/sonner.jsx';
+import { VendorProfile } from './components/vendor-profile.jsx';
+import { CustomerProfile } from './components/customer-profile.jsx';
+import { VendorPostForm } from './components/vendor-post-form.jsx';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('landing');
+  const [currentView, setCurrentView] = useState('info');
   const [viewData, setViewData] = useState(null);
 
   const handleNavigate = (view, data) => {
@@ -27,14 +32,19 @@ export default function App() {
       <Navigation currentView={currentView} onNavigate={handleNavigate} />
       
       <main>
+        {currentView === 'info' && <Info onNavigate={handleNavigate} />}
+        {currentView === 'home' && <HomeFeed onNavigate={handleNavigate} />}
         {currentView === 'landing' && <LandingPage onNavigate={handleNavigate} />}
         {currentView === 'signin' && <AuthPages initialView="signin" onNavigate={handleNavigate} />}
         {currentView === 'signup' && <AuthPages initialView="signup" onNavigate={handleNavigate} />}
   {currentView === 'marketplace' && <Marketplace onNavigate={handleNavigate} initialData={viewData} />}
+  {currentView === 'vendor' && <VendorProfile onNavigate={handleNavigate} />}
+  {currentView === 'customer' && <CustomerProfile onNavigate={handleNavigate} />}
+  {currentView === 'vendor-post' && <VendorPostForm onNavigate={handleNavigate} />}
         {currentView === 'store-dashboard' && <StoreDashboard onNavigate={handleNavigate} />}
         {currentView === 'store-products' && <StoreProducts onNavigate={handleNavigate} />}
         {currentView === 'messages' && <Messages initialData={viewData} onNavigate={handleNavigate} />}
-        {currentView === 'blog' && <Blog onNavigate={handleNavigate} />}
+  {currentView === 'sharp-deals' && <SharpDeals onNavigate={handleNavigate} />}
         {currentView === 'repair' && <RepairService onNavigate={handleNavigate} />}
         {currentView === 'checkout' && viewData?.product && (
           <Checkout product={viewData.product} onNavigate={handleNavigate} />
@@ -55,7 +65,7 @@ export default function App() {
               <h4 className="mb-4">For Buyers</h4>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li>Browse Marketplace</li>
-                <li>Blog & Reviews</li>
+                <li>Sharp Deals</li>
                 <li>Repair Service</li>
               </ul>
             </div>
