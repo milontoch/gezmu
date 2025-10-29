@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Navigation } from './components/top-navigation.jsx';
 import { LandingPage } from './components/landing-page.jsx';
-import { Info } from './components/info.jsx';
 import { HomeFeed } from './components/home-feed.jsx';
 import { AuthPages } from './components/auth-pages.jsx';
 import { Marketplace } from './components/marketplace.jsx';
@@ -18,7 +17,7 @@ import { CustomerProfile } from './components/customer-profile.jsx';
 import { VendorPostForm } from './components/vendor-post-form.jsx';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('info');
+  const [currentView, setCurrentView] = useState('home');
   const [viewData, setViewData] = useState(null);
 
   const handleNavigate = (view, data) => {
@@ -32,7 +31,7 @@ export default function App() {
       <Navigation currentView={currentView} onNavigate={handleNavigate} />
       
       <main>
-        {currentView === 'info' && <Info onNavigate={handleNavigate} />}
+  {/* Info page removed; show home feed by default */}
         {currentView === 'home' && <HomeFeed onNavigate={handleNavigate} />}
         {currentView === 'landing' && <LandingPage onNavigate={handleNavigate} />}
         {currentView === 'signin' && <AuthPages initialView="signin" onNavigate={handleNavigate} />}
