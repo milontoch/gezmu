@@ -33,26 +33,39 @@ export function HomeFeed({ onNavigate }) {
   }, [q]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* search */}
-      <div className="mb-6">
-        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search gadgets or vendors..." />
-      </div>
+    <div>
+      {/* Hero section (jiji-style) */}
+      <section className="bg-gradient-to-br from-blue-50 to-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold mb-3">Buy & Sell Gadgets on Gezmu</h1>
+            <p className="text-lg text-gray-600">Discover great deals from verified stores across Nigeria</p>
+          </div>
+        </div>
+      </section>
 
-      {/* category hotlinks */}
-      <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-blue-700">
-        {CATEGORIES.map((name) => (
-          <button key={name} className="hover:underline text-sm" onClick={() => onNavigate("marketplace", { category: name })}>
-            {name}
-          </button>
-        ))}
-      </div>
+      {/* Main feed */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* search */}
+        <div className="mb-6">
+          <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search gadgets or vendors..." />
+        </div>
 
-      {/* responsive Instagram-like grid: more columns on wide screens */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        {products.map((prod) => (
-          <PostCardInstagram key={prod.id} product={prod} onNavigate={onNavigate} />
-        ))}
+        {/* category hotlinks */}
+        <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-blue-700">
+          {CATEGORIES.map((name) => (
+            <button key={name} className="hover:underline text-sm" onClick={() => onNavigate("marketplace", { category: name })}>
+              {name}
+            </button>
+          ))}
+        </div>
+
+        {/* responsive Instagram-like grid: more columns on wide screens */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          {products.map((prod) => (
+            <PostCardInstagram key={prod.id} product={prod} onNavigate={onNavigate} />
+          ))}
+        </div>
       </div>
     </div>
   );
